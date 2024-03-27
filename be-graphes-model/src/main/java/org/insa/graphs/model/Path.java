@@ -2,6 +2,7 @@ package org.insa.graphs.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,14 +31,53 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
-    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
-    }
+    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) 
+    throws IllegalArgumentException {
+        List<Arc> arcs = new ArrayList<Arc>();        
+
+        boolean arc_rapide_init = false;
+		Arc arc_rapide = null;
+            // Si pas de noeud suivant
+			if (nodes.size() == 0) {
+				return new Path(graph);
+            // Si il y a un noeud
+			}else if (nodes.size() == 1) {
+				return new Path(graph, nodes.get(0));
+			}
+            // Plus d'un noeud
+			else { 
+
+				Iterator<Node> nodeIte = nodes.iterator();
+				Node origine = nodeIte.next();
+
+				/* Parcours des noeuds */
+				while (nodeIte.hasNext()) {
+					Node destination = nodeIte.next();
+
+					/* Parcours des arcs dont le noeud est l'origine */
+                    for (Arc arc: origine.getSuccessors()){
+                        if (arc.getDestination().equals(destination)) {
+
+							if (!arc_rapide_init) { //initialize the first shortest arc
+								arc_rapide = arc;
+								arc_rapide_init = true;
+							}
+
+							else if (arc.getMinimumTravelTime() < arc_rapide.getMinimumTravelTime()) {//change if shorter
+								arc_rapide = arc;
+							}
+						}
+                    }
+
+                    arcs.add(arc_rapide);
+					origine = destination;
+					arc_rapide_init = false;
+
+				}
+				return new Path(graph, arcs);
+			}	
+        }
 
     /**
      * Create a new path that goes through the given list of nodes (in order),
@@ -51,14 +91,52 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
-    }
+    throws IllegalArgumentException {
+        List<Arc> arcs = new ArrayList<Arc>();        
+
+        boolean arc_court_init = false;
+		Arc arc_court = null;
+
+			if (nodes.size() == 0) { //if there is no node
+				return new Path(graph);
+			}else if (nodes.size() == 1) { //if there is one node
+				return new Path(graph, nodes.get(0));
+			}
+
+			else { //at least 2 nodes
+
+				Iterator<Node> nodeIte = nodes.iterator();
+				Node origine = nodeIte.next();
+
+				/* Parcours des noeuds */
+				while (nodeIte.hasNext()) {
+					Node destination = nodeIte.next();
+
+					/* Parcours des arcs dont le noeud est l'origine */
+                    for (Arc arc: origine.getSuccessors()){
+                        if (arc.getDestination().equals(destination)) {
+
+							if (!arc_court_init) { //initialize the first shortest arc
+								arc_court = arc;
+								arc_court_init = true;
+							}
+
+							else if (arc.getLength() < arc_court.getLength()) {//change if shorter
+								arc_court = arc;
+							}
+						}
+                    }
+
+                    arcs.add(arc_court);
+					origine = destination;
+					arc_court_init = false;
+
+				}
+				return new Path(graph, arcs);
+			}	
+        }
 
     /**
      * Concatenate the given paths.
