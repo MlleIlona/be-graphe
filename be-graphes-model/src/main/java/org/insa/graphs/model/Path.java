@@ -98,7 +98,6 @@ public class Path {
 
         boolean arc_court_init = false;
 		Arc arc_court = null;
-
 			if (nodes.size() == 0) { //if there is no node
 				return new Path(graph);
 			}else if (nodes.size() == 1) { //if there is one node
@@ -122,7 +121,6 @@ public class Path {
 								arc_court = arc;
 								arc_court_init = true;
 							}
-
 							else if (arc.getLength() < arc_court.getLength()) {//change if shorter
 								arc_court = arc;
 							}
@@ -275,12 +273,26 @@ public class Path {
      * </ul>
      * 
      * @return true if the path is valid, false otherwise.
-     * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
         // TODO:
-        return false;
+        if (this.isEmpty() || this.size()==1) { //OR
+            return true;
+        } else if (this.getOrigin()==this.arcs.get(0).getOrigin()){
+            int test=0;
+            for (int i = 0; i < this.arcs.size()-1; i++){
+                if (this.arcs.get(i).getDestination()!=this.arcs.get(i+1).getOrigin()){
+                    test+=1;
+                }
+            }
+            if (test==0){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
