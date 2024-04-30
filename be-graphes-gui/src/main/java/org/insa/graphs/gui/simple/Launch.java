@@ -50,6 +50,11 @@ public class Launch {
         final String mapName = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
         final String pathName = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/path_fr31insa_rangueil_r2.path";
 
+        final String mapName2 = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/haute-garonne.mapgr";
+        final String pathName2 = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/path_fr31_insa_bikini_canal.path";
+
+        
+
         // Create a graph reader.
         final GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
@@ -78,6 +83,38 @@ public class Launch {
 
         pathReader.close();
         reader.close();
-    }
+
+        // example 2
+
+        // Create a graph reader.
+        final GraphReader reader2 = new BinaryGraphReader(
+            new DataInputStream(new BufferedInputStream(new FileInputStream(mapName2))));
+
+        //final GraphReaderProgressBar progressBar = new GraphReaderProgressBar();
+
+        // TODO: Read the graph.
+        final Graph graph2 = reader2.read();
+
+        // Create the drawing:
+        final Drawing drawing2 = createDrawing();
+
+        // TODO: Draw the graph on the drawing.
+        drawing2.drawGraph(graph2);
+
+        // TODO: Create a PathReader.
+        final PathReader pathReader2 = new BinaryPathReader(
+        new DataInputStream(new BufferedInputStream(new FileInputStream(pathName2))));;
+
+
+        // TODO: Read the path.
+        final Path path2 = pathReader2.readPath(graph2);
+
+        // TODO: Draw the path.
+        drawing2.drawPath(path2);
+
+
+        pathReader2.close();
+        reader2.close();
+        }
 
 }
