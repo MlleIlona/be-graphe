@@ -63,7 +63,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         while(!tasLabel.isEmpty() && !found) {
             Label current = tasLabel.deleteMin();
 
-            /* On indique aux observateurs que le Node a été marqué */
             notifyNodeMarked(current.get_sommet());
             current.setMark();
 
@@ -76,7 +75,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             while(arc.hasNext()) {
                 Arc arcIter = arc.next();
                 if(!data.isAllowed(arcIter)) {
-                    continue; // a gérer pour les chemins piétons 
+                    continue; // a gérer pour les chemins piétons (canal)
                 }
                 Node successor = arcIter.getDestination();
                 Label successorLabel = tableauLabel[successor.getId()];
@@ -86,7 +85,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     successorLabel = new Label(successor);
 
                     tableauLabel[successorLabel.get_sommet().getId()] = successorLabel;
-                    this.nbSommetsVisites++; // incrémentation du nb de sommets visités (test de performance)
+                    this.nbSommetsVisites++; // incrémentation du nb de sommets visités
                 }
 
                 if (!successorLabel.get_mark()) {
