@@ -31,7 +31,7 @@ public class LabelStar extends Label {
     }
 
     //Utilise la comparaison de label pour le djisktra
-    @Override
+    //@Override
     public int compareTo(LabelStar autre) {
         System.out.println("labelstar\n");
         int res;
