@@ -8,6 +8,7 @@ public class Label implements Comparable<Label> {
     private Node father;
     private Node sommet;
     private boolean exist;
+    protected float TotalCost;
 
     public Label(Node noeud){
     this.sommet = noeud;
@@ -15,6 +16,7 @@ public class Label implements Comparable<Label> {
     this.realised_cost = Float.POSITIVE_INFINITY;
     this.father = null;
     this.exist = false;
+    this.TotalCost=realised_cost;
 }
 
 /*Getter*/
@@ -33,9 +35,11 @@ public Node get_sommet(){
 
 public float getCost(){
     return realised_cost;
-
-
 //Est sensé retourné le cout de ce label
+}
+
+public float getTotalCost(){
+    return realised_cost;
 }
 
 public boolean getExist(){
@@ -51,6 +55,10 @@ public void setCost(float cout) {
     this.realised_cost = cout;
 }
 
+public void setTotalCost(float cout){
+    this.TotalCost=cout;
+}
+
 public void setFather(Node father) {
     this.father = father;
 }
@@ -60,18 +68,18 @@ public void setExist() {
 }
 
 public int compareTo(Label autre) {
+    System.out.println("label\n");
     int res;
-    if (this.getCost() < autre.getCost()) {
+    if (this.getTotalCost() < autre.getTotalCost()) {
         res = -1;
     }
-    else if (this.getCost() == autre.getCost()) {
-        res = 0;
+    else if (this.getTotalCost() == autre.getTotalCost()) {
+        res = 1;
     }
     else {
         res = 1;
     }
     return res;
 }
-
 
 }

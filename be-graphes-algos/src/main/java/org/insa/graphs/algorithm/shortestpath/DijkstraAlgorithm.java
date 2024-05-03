@@ -11,7 +11,7 @@ import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
-import org.insa.graphs.algorithm.shortestpath.Label;
+
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -23,6 +23,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         this.nbSommetsVisites = 0;
     }
 
+    protected Label newLabel(Node node, ShortestPathData data) {
+		return new Label(node);
+	}
+
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
@@ -30,6 +34,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Graph graph = data.getGraph();
         final int nbNodes = graph.size();
+
+        
 
         // On associe un label à chaque noeud avec leur ID
         Label tableauLabel[] = new Label[nbNodes];
@@ -40,7 +46,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Arc[] predecessorArcs = new Arc[nbNodes];
 
         // Ajout du sommet de départ
-        Label debut = new Label(data.getOrigin());
+        Label debut = newLabel(data.getOrigin(), data);
         tableauLabel[debut.get_sommet().getId()] = debut;
         debut.setExist();
         tasLabel.insert(debut);
@@ -61,6 +67,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // cycle...
         boolean found = false;
         while(!tasLabel.isEmpty() && !found) {
+            System.out.println("argh\n");
             Label current = tasLabel.deleteMin();
 
             notifyNodeMarked(current.get_sommet());
@@ -73,6 +80,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 			Iterator<Arc> arc = current.get_sommet().getSuccessors().iterator();
 
             while(arc.hasNext()) {
+                System.out.println("salut2\n");
                 Arc arcIter = arc.next();
                 if(!data.isAllowed(arcIter)) {
                     continue; // a gérer pour les chemins piétons (canal)
@@ -82,7 +90,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 // Si le successor n'est pas encore marqué, on le créé
                 if (successorLabel == null) {
                     notifyNodeReached(arcIter.getDestination());
-                    successorLabel = new Label(successor);
+                    successorLabel = newLabel(successor, data);
 
                     tableauLabel[successorLabel.get_sommet().getId()] = successorLabel;
                     this.nbSommetsVisites++; // incrémentation du nb de sommets visités
@@ -92,11 +100,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					/* Si on obtient un meilleur coût */
 					/* Alors on le met à jour */
 
-					if((successorLabel.getCost()>(current.getCost()+data.getCost(arcIter)
-						+(successorLabel.getCost()-successorLabel.getCost()))) 
-						|| (successorLabel.getCost()==Float.POSITIVE_INFINITY)){
+                    /*((successorLabel.getTotalCost()>(current.getTotalCost()+data.getCost(arcIter)
+						+(successorLabel.getTotalCost()-successorLabel.getTotalCost()))) 
+						|| (successorLabel.getTotalCost()==Float.POSITIVE_INFINITY))*/
+
+                        System.out.println("salut\n");
+
+					if(successorLabel.compareTo(current)>0){
                             successorLabel.setCost(current.getCost()+(float)data.getCost(arcIter));
+                            successorLabel.setTotalCost(current.getCost());
                             successorLabel.setFather(current.get_sommet());
+                            System.out.println("cout \n" + successorLabel.getCost());
+                            System.out.println("cout total \n" + successorLabel.getTotalCost());
+
 						/* Si le label est déjà dans le tas */
 						/* Alors on met à jour sa position dans le tas */
 						if(successorLabel.getExist()) {

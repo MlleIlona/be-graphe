@@ -11,7 +11,7 @@ public class LabelStar extends Label {
 
     public LabelStar(Node noeud, ShortestPathData data){
         super(noeud);
-
+        System.out.println("heu\n");
         if (data.getMode() == AbstractInputData.Mode.LENGTH) {
             this.borneInf = (float)Point.distance(noeud.getPoint(), data.getDestination().getPoint());
         } else {
@@ -20,26 +20,35 @@ public class LabelStar extends Label {
         }
     }
 
-    public int CompareTo(LabelStar autre) {
+    @Override
+    public float getTotalCost() {
+        return this.TotalCost;
+    }
+
+    @Override
+    public void setTotalCost(float cout) {
+        this.TotalCost=this.borneInf+cout;
+    }
+
+    //Utilise la comparaison de label pour le djisktra
+    @Override
+    public int compareTo(LabelStar autre) {
+        System.out.println("labelstar\n");
         int res;
         if (this.getTotalCost() < autre.getTotalCost()) {
             res = -1;
         }
         else if (this.getTotalCost() == autre.getTotalCost()) {
             if (this.borneInf<autre.borneInf){
-                res= -1;
+                res= 1;
             } else {
-                res = 1;
+                res = -1;
             }
         }
         else {
             res = 1;
         }
         return res;
-    }
-
-    public float getTotalCost() {
-        return this.borneInf+this.realised_cost;
     }
 
 }
