@@ -71,20 +71,12 @@ public void setExist() {
 //MARCHE PAS BORNEiNF N'Y EST PAS
 public int compareTo(Label autre) {
     System.out.println("label\n");
-    System.out.println("ARGGGGGGGGGGGGGGGGGGGHHHHHHHHHHH cout : \n"+ this.getClass().getTypeName());
     int res;
     if (this.getTotalCost() < autre.getTotalCost()) {
         res = -1;
     }
     else if (this.getTotalCost() == autre.getTotalCost()) {
-        if (this.getClass().getTypeName()=="org.insa.graphs.algorithm.shortestpath.LabelStar"){
-            if (this.borneInf<autre.borneInf){
-                res= 1;
-            } else {
-                res = -1;
-            }
-        }
-        res = 1;
+        res = 0;
     }
     else {
         res = 1;

@@ -32,22 +32,28 @@ public class LabelStar extends Label {
 
     //Utilise la comparaison de label pour le djisktra
     //@Override
-    public int compareTo(LabelStar autre) {
+    public int compareTo(Label autre) {
         System.out.println("labelstar\n");
         int res;
         if (this.getTotalCost() < autre.getTotalCost()) {
             res = -1;
-        }
-        else if (this.getTotalCost() == autre.getTotalCost()) {
-            if (this.borneInf<autre.borneInf){
-                res= 1;
+        } else if (this.getTotalCost() == autre.getTotalCost()) {
+            if (autre instanceof LabelStar) {
+                LabelStar other = (LabelStar) autre;
+                if (this.borneInf<other.borneInf){
+                    res= 1;
+                } else {
+                    res = -1;
+                }
+                // Implement compareTo for LabelStar
             } else {
-                res = -1;
+                // if autre is not a labelstar (normalement pas le cas)
+                res=0;
             }
-        }
-        else {
+            
+        } else {
             res = 1;
-        }
+        }      
         return res;
     }
 
