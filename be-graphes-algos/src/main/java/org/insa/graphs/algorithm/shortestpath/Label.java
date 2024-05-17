@@ -70,13 +70,22 @@ public void setExist() {
 
 //MARCHE PAS BORNEiNF N'Y EST PAS
 public int compareTo(Label autre) {
-    System.out.println("label\n");
+    //System.out.println("label\n");
     int res;
     if (this.getTotalCost() < autre.getTotalCost()) {
         res = -1;
     }
     else if (this.getTotalCost() == autre.getTotalCost()) {
-        res = 0;
+        if(this.getTotalCost()-this.realised_cost > autre.getTotalCost()-autre.realised_cost) {
+            //System.out.println("labelstar1\n");
+            res = 1;
+        } else if (this.getTotalCost()-this.realised_cost < autre.getTotalCost()-autre.realised_cost) {
+            //System.out.println("labelstar\n");
+            res = -1;
+        } else {
+            res = 0;
+            //System.out.println("KJSENFUIWSHT\n");
+        }
     }
     else {
         res = 1;

@@ -53,10 +53,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         debut.setCost(0);
 
 
-        // Initialize array of distances.
-        double[] distances = new double[nbNodes];
-        Arrays.fill(distances, Double.POSITIVE_INFINITY);
-        distances[data.getOrigin().getId()] = 0;
+
 
         // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
@@ -100,18 +97,16 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 					/* Si on obtient un meilleur coût */
 					/* Alors on le met à jour */
 
-                    /*((successorLabel.getTotalCost()>(current.getTotalCost()+data.getCost(arcIter)
-						+(successorLabel.getTotalCost()-successorLabel.getTotalCost()))) 
-						|| (successorLabel.getTotalCost()==Float.POSITIVE_INFINITY))*/
+                    if ((successorLabel.getCost()>(current.getCost()+data.getCost(arcIter)))) {
 
                         System.out.println("salut\n");
 
-					if(successorLabel.compareTo(current)>0){
+					//if(successorLabel.compareTo(current)>0){
                             successorLabel.setCost(current.getCost()+(float)data.getCost(arcIter));
-                            successorLabel.setTotalCost(current.getCost());
+                            successorLabel.setTotalCost(successorLabel.getCost());
                             successorLabel.setFather(current.get_sommet());
-                            System.out.println("cout \n" + successorLabel.getCost());
-                            System.out.println("cout total \n" + successorLabel.getTotalCost());
+                            //System.out.println("cout \n" + successorLabel.getCost());
+                            //System.out.println("cout total \n" + successorLabel.getTotalCost());
 
 						/* Si le label est déjà dans le tas */
 						/* Alors on met à jour sa position dans le tas */
