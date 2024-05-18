@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
  //org.insa.graphs.algorithm.shortestpath;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -22,13 +22,28 @@ import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.GraphReader;
 
-public class DjikstraTest {
+/*
+ * N'est pas des JUnit
+ * 2 options : faire des JUnit en se basant sur PathTest.java et Path.java
+ * faire simplement des System.out.println
+ * Le plus long consiste à simuler des executions de la map
+ * AStar et Djikstra c'est presque pareil donc en faire qu'un seul
+ * 
+ */
 
-    @Test
-	// typeEvaluation : 0 = temps, 1 = distance
-	public void testScenario(String mapName, int typeEvaluation, int origine, int destination) throws Exception {
-		//public void testScenario(String mapName, int typeEvaluation, Node origine, Node destination) throws Exception {
 
+public class DjikstraTest  {
+
+	
+
+	@BeforeClass
+  // typeEvaluation : 0 = temps, 1 = distance
+	public double testScenario(String map, int typeEvaluation, int origine, int destination, char algo) throws Exception {
+		//return 0.0 if origin=destination
+		//return -1.0 if Pas de solution
+		//return the cost if therre is a solution
+
+		final String mapName="/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/"+map;
 		// Create a graph reader.
 		GraphReader reader = new BinaryGraphReader(
 				new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
@@ -36,8 +51,10 @@ public class DjikstraTest {
 		// Read the graph.
 		Graph graph = reader.read();
 
+		double res = 0;
+
 		if (typeEvaluation!=0 && typeEvaluation!=1) {
-			System.out.println("Argument invalide");
+			System.out.println("Argument invalide : 0 = Temps & 1 = Distance");
 		} else {
 			if (origine<0 || destination<0 || origine>=(graph.size()-1) || destination>=(graph.size()-1)) { // On est hors du graphe. / Sommets inexistants
 				System.out.println("ERREUR : Paramètres invalides ");
@@ -61,37 +78,44 @@ public class DjikstraTest {
 				if(origine==destination) {
 					System.out.println("Origine et Destination identiques");
 					System.out.println("Cout solution: 0");
+					res = 0.0;
 					
 				} else {			
 					ShortestPathData data = new ShortestPathData(graph, graph.get(origine),graph.get(destination), arcInspectorDijkstra);
-		
-					BellmanFordAlgorithm B = new BellmanFordAlgorithm(data);
-					DijkstraAlgorithm D = new DijkstraAlgorithm(data);
 					
-					// Recuperation des solutions de Bellman et Dijkstra pour comparer 
-					ShortestPathSolution solution = D.run();
-					ShortestPathSolution expected = B.run();
-	
+					ShortestPathSolution solution;
+					if (algo=='B'){
+						BellmanFordAlgorithm B = new BellmanFordAlgorithm(data);
+						solution = B.run();
+					} else if (algo=='D'){
+						DijkstraAlgorithm D = new DijkstraAlgorithm(data);
+						solution = D.run();
+					} else {
+						solution=null;
+					}
+					
 					
 					if (solution.getPath() == null) {
-						assertEquals(expected.getPath(), solution.getPath());
+						//assertEquals(expected.getPath(), solution.getPath());
 						System.out.println("PAS DE SOLUTION");
 						System.out.println("(infini) ");
+						res = -1.0;
 					}
 					// Un plus court chemin trouve 
 					else {
 						double costSolution;
-						double costExpected;
+						//double costExpected;
 						if(typeEvaluation == 0) { //Temps
 							//Calcul du cout de la solution 
 							costSolution = solution.getPath().getMinimumTravelTime();
-							costExpected = expected.getPath().getMinimumTravelTime();
+							//costExpected = expected.getPath().getMinimumTravelTime();
 						} else {
 							costSolution = solution.getPath().getLength();
-							costExpected = expected.getPath().getLength();
+							//costExpected = expected.getPath().getLength();
 						}
-						assertEquals(costExpected, costSolution, 0.001);
+						//assertEquals(costExpected, costSolution, 0.001);
 						System.out.println("Cout solution: " + costSolution);
+						res = costSolution;
 					}
 				}
 			}
@@ -99,99 +123,55 @@ public class DjikstraTest {
 		System.out.println();
 		System.out.println();
         reader.close();
+		return res;
 	}
+
 
 
 	@Test
-	/* Verifie que le temps du chemin le plus rapide est inferieur au temps du chemin le plus court */
-	/* Et verifie que la distance du chemin le plus rapide est superieur a la distance du chemin le plus court */
-	public void testScenarioSansOracle(String mapName, int origine, int destination) throws Exception {
+	public void NoPath() throws Exception {
+		//We check that it's the same result for Djikstra and Bellman
+		//check les noms et mettre les bonnes coordonnées
+		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+    }
 
-		double costFastestSolutionInTime = Double.POSITIVE_INFINITY;
-		double costFastestSolutionInDistance = Double.POSITIVE_INFINITY;
-		double costShortestSolutionInTime = Double.POSITIVE_INFINITY;
-		double costShortestSolutionInDistance = Double.POSITIVE_INFINITY;
+	@Test
+	public void NullPath() throws Exception {
+		//We check that it's the same result for Djikstra and Bellman
+		//put the same origin and destination
+		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+    }
 
-		// Create a graph reader.
-		GraphReader reader = new BinaryGraphReader(
-				new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
+	@Test
+	public void SImplePath() throws Exception {
+		//We check that it's the same result for Djikstra and Bellman
+		//choose sommets
+		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+    }
 
-		// Read the graph.
-		Graph graph = reader.read();
+	@Test
+	public void SommetsInexistants() throws Exception {
+		//We check that it's the same result for Djikstra and Bellman
+		//Choose sommets
+		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+    }
 
-		if (origine<0 || destination<0 || origine>=(graph.size()-1) || destination>=(graph.size()-1)) { // On est hors du graphe. / Sommets inexistants
-			System.out.println("ERREUR : Paramètres invalides ");
-			
-		} else {
-			System.out.println("Origine : " + origine);
-			System.out.println("Destination : " + destination);
-			
-			if(origine==destination) {
-				System.out.println("Origine et Destination identiques");
-				System.out.println("Tous les couts sont � 0.");
-				
-			} else {
-		
-				/** Recherche du chemin le plus rapide **/
-				ArcInspector arcInspectorDijkstra = ArcInspectorFactory.getAllFilters().get(2);
-		
-				ShortestPathData data = new ShortestPathData(graph, graph.get(origine),graph.get(destination), arcInspectorDijkstra);
-		
-				DijkstraAlgorithm D = new DijkstraAlgorithm(data);
-		
-				/* Recuperation de la solution de Dijkstra */
-				ShortestPathSolution solution = D.run();
-		
-				/* Pas de chemin trouve */
-				if (solution.getPath() == null) {
-					System.out.println("PAS DE CHEMIN SOLUTION EN TEMPS");
-				}
-				/* Un plus court chemin trouve */
-				else {
-					/* Calcul du cout de la solution (en temps et en distance) */
-					costFastestSolutionInTime = solution.getPath().getMinimumTravelTime();
-					costFastestSolutionInDistance = solution.getPath().getLength();
-				}
-		
-		
-				/** Recherche du chemin le plus court **/
-		
-				arcInspectorDijkstra = ArcInspectorFactory.getAllFilters().get(0);
-		
-				data = new ShortestPathData(graph, graph.get(origine),graph.get(destination), arcInspectorDijkstra);
-		
-				D = new DijkstraAlgorithm(data);
-		
-				/* Recuperation de la solution de Dijkstra */
-				solution = D.run();
-	
-				/* Pas de chemin trouve */
-				if (solution.getPath() == null) {
-					System.out.println("PAS DE CHEMIN SOLUTION EN DISTANCE");
-				}
-				/* Un plus court chemin trouve */
-				else {				
-					/* Calcul du cout de la solution (en temps et en distance) */
-					costShortestSolutionInTime = solution.getPath().getMinimumTravelTime();
-					costShortestSolutionInDistance = solution.getPath().getLength();
-				}
-			
-			
-				/* Verifie que le temps du chemin le plus rapide est inferieur au temps du chemin le plus court */
-				assertTrue(costFastestSolutionInTime <= costShortestSolutionInTime);
-				System.out.println("Cout en temps du chemin le plus rapide : " + costFastestSolutionInTime);
-				System.out.println("Cout en temps du chemin le plus court  : " + costShortestSolutionInTime);
-		
-				/* Et verifie que la distance du chemin le plus rapide est superieur a la distance du chemin le plus court */
-				assertTrue(costFastestSolutionInDistance >= costShortestSolutionInDistance);
-				System.out.println("Cout en distance du chemin le plus rapide : " + costFastestSolutionInDistance);
-				System.out.println("Cout en distance du chemin le plus court  : " + costShortestSolutionInDistance);
-	
-			}
-		}
-		System.out.println();
-		System.out.println();
-        reader.close();
-	}
+	@Test
+	public void LongPath() throws Exception {
+		//We check that it's the same result for Djikstra and Bellman
+		//Choose sommets
+		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'B'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+    }
+
+
+
+
 
 }
+
+
