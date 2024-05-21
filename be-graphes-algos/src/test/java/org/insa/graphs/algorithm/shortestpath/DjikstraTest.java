@@ -2,7 +2,7 @@ package org.insa.graphs.algorithm.shortestpath;
 
 
 import org.junit.Test;
-import org.junit.BeforeClass;
+import java.util.*;
 
  //org.insa.graphs.algorithm.shortestpath;
 
@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.util.Random;
 
 import org.insa.graphs.algorithm.ArcInspector;
 import org.insa.graphs.algorithm.ArcInspectorFactory;
@@ -43,7 +44,7 @@ public class DjikstraTest  {
 		//return -1.0 if Pas de solution
 		//return the cost if therre is a solution
 
-		final String mapName="/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/"+map;
+		final String mapName="C:/Users/bourg/OneDrive/Bureau/INSA_3A/S2/BE_Graphes/Maps/"+map;
 		// Create a graph reader.
 		GraphReader reader = new BinaryGraphReader(
 				new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
@@ -141,22 +142,36 @@ public class DjikstraTest  {
 	public void NullPath() throws Exception {
 		//We check that it's the same result for Djikstra and Bellman
 		//put the same origin and destination
-		assertEquals(testScenario("france.mapgr", 0, 0, 0, 'B'), testScenario("france.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("france.mapgr", 1, 0, 0, 'B'), testScenario("france.mapgr", 1, 0, 0, 'D') , 0.001);
+		assertEquals(testScenario("haute-garonne.mapgr", 0, 0, 0, 'B'), testScenario("haute-garonne.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("haute-garonne.mapgr", 1, 0, 0, 'B'), testScenario("haute-garonne.mapgr", 1, 0, 0, 'D') , 0.001);
     }
 
-	@Test
-	public void SImplePath() throws Exception {
+	//@Test
+	public void SimplePath() throws Exception {
 		//We check that it's the same result for Djikstra and Bellman
-		//choose sommets
-		assertEquals(testScenario("france.mapgr", 0, 5708766, 4728274, 'B'), testScenario("france.mapgr", 0, 5708766, 4728274, 'D') , 0.001 );
-        assertEquals(testScenario("france.mapgr", 1, 5708766, 4728274, 'B'), testScenario("france.mapgr", 1, 5708766, 4728274, 'D') , 0.001);
-    }
+		assertEquals(testScenario("haute-garonne.mapgr", 0, 103459, 15464, 'B'), testScenario("haute-garonne.mapgr", 0, 103459, 15464, 'D') , 0.001 );
+        assertEquals(testScenario("haute-garonne.mapgr", 1, 103459,15464, 'B'), testScenario("haute-garonne.mapgr", 1, 103459, 15464, 'D') , 0.001);
+		//test en random pour en teester une centaine
+	}
 
 	@Test
+	public void PleinsDeTests() throws Exception {
+		Random random = new Random();
+		for (int i=0; i<100; i++){
+			// On regarde en haute-garonne donc il y a 157890 nodes
+			//prend environ 20-30min a se finir
+			int x= random.nextInt(157890);
+			int y = random.nextInt(157890);
+			assertEquals(testScenario("haute-garonne.mapgr", 0, x, y, 'B'), testScenario("haute-garonne.mapgr", 0, x, y, 'D') , 0.001 );
+        	assertEquals(testScenario("haute-garonne.mapgr", 1, x, y, 'B'), testScenario("haute-garonne.mapgr", 1, x, y, 'D') , 0.001);
+		}
+	}
+
+	//@Test
 	public void LongPath() throws Exception {
 		//We check that it's the same result for Djikstra and Bellman
-		//Choose sommets
+		//We tried with France, and it worked, but it's really long
+
 		assertEquals(testScenario("france.mapgr", 0, 3021768, 1054140, 'B'), testScenario("france.mapgr", 0, 3021768, 1054140, 'D') , 0.001 );
         assertEquals(testScenario("france.mapgr", 1, 3021768, 1054140, 'B'), testScenario("france.mapgr", 1, 3021768, 1054140, 'D') , 0.001);
     }

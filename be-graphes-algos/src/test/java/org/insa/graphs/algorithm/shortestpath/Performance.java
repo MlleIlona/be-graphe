@@ -23,7 +23,7 @@ public class Performance {
 		//this.origine = origine;
 		//this.destination = destination;
         double temps=0.0;
-        final String mapName="/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/"+map;
+        final String mapName="C:/Users/bourg/OneDrive/Bureau/INSA_3A/S2/BE_Graphes/Maps/"+map;
 		
 		try {
 			// Create a graph reader.
@@ -128,7 +128,8 @@ public class Performance {
 
 /*---------------Test sur 100 itération de A* sur un chemin long en temps---------------------*/
         for (int i=0; i<10; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,6760855, 7957138, 'A');
+            //We tried with France, and it worked, but it's really long
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,56839, 147003, 'A');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/10.0;
@@ -138,7 +139,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin long en temps---------------*/
         for (int i=0; i<10; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,6760855, 7957138, 'D');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,56839, 147003, 'D');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/10.0;
@@ -191,7 +192,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de A* sur un chemin long en distance---------------------*/
         for (int i=0; i<10; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,6760855, 7957138, 'A');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,56839, 147003, 'A');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/10.0;
@@ -201,7 +202,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin long en distance---------------*/
         for (int i=0; i<10; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,6760855, 7957138, 'D');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,56839, 147003, 'D');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/10.0;
