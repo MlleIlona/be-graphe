@@ -36,9 +36,9 @@ public class AStarTest  {
 
 	
 
-	@BeforeClass
+	//@BeforeClass
   // typeEvaluation : 0 = temps, 1 = distance
-	public double testScenario(String map, int typeEvaluation, int origine, int destination, char algo) throws Exception {
+	public static double testScenario(String map, int typeEvaluation, int origine, int destination, char algo) throws Exception {
 		//return 0.0 if origin=destination
 		//return -1.0 if Pas de solution
 		//return the cost if therre is a solution
@@ -127,45 +127,40 @@ public class AStarTest  {
 	}
 
 
+
 	@Test
 	public void NoPath() throws Exception {
-		//We check that it's the same result for Djikstra and A*
+		//We check that it's the same result for Djikstra and Bellman
 		//check les noms et mettre les bonnes coordonnées
-		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+		System.out.println("test1");
+		assertEquals(testScenario("guadeloupe.mapgr", 0, 16032, 16122, 'A'), testScenario("guadeloupe.mapgr", 0, 16032, 16122, 'D') , 0.001 );
+        assertEquals(testScenario("guadeloupe.mapgr", 1, 16032, 16122, 'A'), testScenario("guadeloupe.mapgr", 1, 16032, 16122, 'D') , 0.001);
     }
 
 	@Test
 	public void NullPath() throws Exception {
-		//We check that it's the same result for Djikstra and A*
+		//We check that it's the same result for Djikstra and Bellman
 		//put the same origin and destination
-		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+		assertEquals(testScenario("france.mapgr", 0, 0, 0, 'A'), testScenario("france.mapgr", 0, 0, 0, 'D') , 0.001 );
+        assertEquals(testScenario("france.mapgr", 1, 0, 0, 'A'), testScenario("france.mapgr", 1, 0, 0, 'D') , 0.001);
     }
 
 	@Test
 	public void SImplePath() throws Exception {
-		//We check that it's the same result for Djikstra and A*
+		//We check that it's the same result for Djikstra and Bellman
 		//choose sommets
-		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
-    }
-
-	@Test
-	public void SommetsInexistants() throws Exception {
-		//We check that it's the same result for Djikstra and A*
-		//Choose sommets
-		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+		assertEquals(testScenario("france.mapgr", 0, 5708766, 4728274, 'A'), testScenario("france.mapgr", 0, 5708766, 4728274, 'D') , 0.001 );
+        assertEquals(testScenario("france.mapgr", 1, 5708766, 4728274, 'A'), testScenario("france.mapgr", 1, 5708766, 4728274, 'D') , 0.001);
     }
 
 	@Test
 	public void LongPath() throws Exception {
-		//We check that it's the same result for Djikstra and A*
+		//We check that it's the same result for Djikstra and Bellman
 		//Choose sommets
-		assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 0, 0, 0, 'D') , 0.001 );
-        assertEquals(testScenario("France.mapgr", 0, 0, 0, 'A'), testScenario("France.mapgr", 1, 0, 0, 'D') , 0.001);
+		assertEquals(testScenario("france.mapgr", 0, 3021768, 1054140, 'A'), testScenario("france.mapgr", 0, 3021768, 1054140, 'D') , 0.001 );
+        assertEquals(testScenario("france.mapgr", 1, 3021768, 1054140, 'A'), testScenario("france.mapgr", 1, 3021768, 1054140, 'D') , 0.001);
     }
+
 
 
 

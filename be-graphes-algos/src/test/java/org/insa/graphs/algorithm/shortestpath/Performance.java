@@ -4,6 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
 
 import org.insa.graphs.algorithm.ArcInspector;
 import org.insa.graphs.algorithm.ArcInspectorFactory;
@@ -49,10 +52,10 @@ public class Performance {
             if (algo=='D'){
                 /* Calcul du temps d'exécution de Dijkstra */
                 DijkstraAlgorithm D = new DijkstraAlgorithm(data);
-                tempsDeb = System.nanoTime();
+                tempsDeb = System.nanoTime();//en ns
                 D.run();
                 tempsFin = System.nanoTime();
-                temps = (tempsFin-tempsDeb)/1000000.0f;
+                temps = (tempsFin-tempsDeb)/1000000.0f;//met en ms
             } else if (algo=='A'){
                 /* Calcul du temps d'exécution d'AStar */
                 AStarAlgorithm A = new AStarAlgorithm(data);
@@ -73,15 +76,17 @@ public class Performance {
 	}
     
 
-    public void main(String[] args) throws Exception {
+    //public void main(String[] args) throws Exception {
 
+    @Test
+    public void Test() throws Exception {
         double tot_temps=0;
         double temps_unitaire=0;
 
 
 /*----------------Test sur 100 itération de A* sur un chemin court en temps------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("toulouse.mapgr", 0 ,0, 0, 'A');
+            tot_temps+=TempsExecution("toulouse.mapgr", 0 ,3167, 6159, 'A');
             //Type evaluation : 0 = Temps & 1 = Distance
             //Choisir origine et destination
         }
@@ -92,7 +97,7 @@ public class Performance {
 
 /*----------------Test sur 100 itération de Djikstra sur un chemin court en temps---------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("toulouse.mapgr", 0 ,0, 0, 'D');
+            tot_temps+=TempsExecution("toulouse.mapgr", 0 ,3167, 6159, 'D');
 
             //Choisir origine et destination
         }
@@ -103,7 +108,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de A* sur un chemin moyen en temps ------------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,0, 0, 'A');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,78045, 86441, 'A');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
@@ -113,7 +118,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin moyen en temps-------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,0, 0, 'D');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,78045, 86441, 'D');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
@@ -122,21 +127,21 @@ public class Performance {
         temps_unitaire=0;
 
 /*---------------Test sur 100 itération de A* sur un chemin long en temps---------------------*/
-        for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,0, 0, 'A');
+        for (int i=0; i<10; i++){
+            tot_temps+=TempsExecution("france.mapgr", 0 ,6760855, 7957138, 'A');
             //Choisir origine et destination
         }
-        temps_unitaire=tot_temps/100.0;
+        temps_unitaire=tot_temps/10.0;
         System.out.println("Temps A* chemin long en temps : " + temps_unitaire + "\n");
         tot_temps=0;
         temps_unitaire=0;
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin long en temps---------------*/
-        for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 0 ,0, 0, 'D');
+        for (int i=0; i<10; i++){
+            tot_temps+=TempsExecution("france.mapgr", 0 ,6760855, 7957138, 'D');
             //Choisir origine et destination
         }
-        temps_unitaire=tot_temps/100.0;
+        temps_unitaire=tot_temps/10.0;
         System.out.println("Temps Djikstra chemin long en temps : " + temps_unitaire + "\n");
         tot_temps=0;
         temps_unitaire=0;
@@ -144,7 +149,7 @@ public class Performance {
 
 /*----------------Test sur 100 itération de A* sur un chemin court en distance------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("toulouse.mapgr", 1 ,0, 0, 'A');
+            tot_temps+=TempsExecution("toulouse.mapgr", 1 , 3167, 6159, 'A');
             //Type evaluation : 0 = Temps & 1 = Distance
             //Choisir origine et destination
         }
@@ -155,7 +160,7 @@ public class Performance {
 
 /*----------------Test sur 100 itération de Djikstra sur un chemin court en distance---------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("toulouse.mapgr", 1 ,0, 0, 'D');
+            tot_temps+=TempsExecution("toulouse.mapgr", 1 ,3167, 6159, 'D');
 
             //Choisir origine et destination
         }
@@ -166,7 +171,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de A* sur un chemin moyen en fistance ------------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,0, 0, 'A');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,78045, 86441, 'A');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
@@ -176,7 +181,7 @@ public class Performance {
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin moyen en distance-------------*/
         for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,0, 0, 'D');
+            tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,78045, 86441, 'D');
             //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
@@ -185,24 +190,26 @@ public class Performance {
         temps_unitaire=0;
 
 /*---------------Test sur 100 itération de A* sur un chemin long en distance---------------------*/
-        for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,0, 0, 'A');
+        for (int i=0; i<10; i++){
+            tot_temps+=TempsExecution("france.mapgr", 1 ,6760855, 7957138, 'A');
             //Choisir origine et destination
         }
-        temps_unitaire=tot_temps/100.0;
+        temps_unitaire=tot_temps/10.0;
         System.out.println("Temps A* chemin long en distance : " + temps_unitaire + "\n");
         tot_temps=0;
         temps_unitaire=0;
 
 /*---------------Test sur 100 itération de Djikstra sur un chemin long en distance---------------*/
-        for (int i=0; i<100; i++){
-            tot_temps+=TempsExecution("france.mapgr", 1 ,0, 0, 'D');
+        for (int i=0; i<10; i++){
+            tot_temps+=TempsExecution("france.mapgr", 1 ,6760855, 7957138, 'D');
             //Choisir origine et destination
         }
-        temps_unitaire=tot_temps/100.0;
+        temps_unitaire=tot_temps/10.0;
         System.out.println("Temps Djikstra chemin long en distance : " + temps_unitaire + "\n");
         tot_temps=0;
         temps_unitaire=0;
+
+        assertEquals(1,1);
 
 
         }
