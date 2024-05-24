@@ -1,7 +1,4 @@
 package org.insa.graphs.algorithm.shortestpath;
-
-
-import org.insa.graphs.algorithm.shortestpath.LabelStar;
 import org.insa.graphs.model.Node;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {

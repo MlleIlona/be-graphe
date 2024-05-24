@@ -64,21 +64,21 @@ public class DjikstraTest  {
 				ArcInspector arcInspectorDijkstra;
 				
 				if (typeEvaluation == 0) { //Temps
-					System.out.println("Mode : Temps");
+					//System.out.println("Mode : Temps");
 					arcInspectorDijkstra = ArcInspectorFactory.getAllFilters().get(2);
 				} else {
-					System.out.println("Mode : Distance");
+					//System.out.println("Mode : Distance");
 					arcInspectorDijkstra = ArcInspectorFactory.getAllFilters().get(0);
 				}
 				
 				
 				//System.out.println("Chemin de la carte : "+mapName);
-				System.out.println("Origine : " + origine);
-				System.out.println("Destination : " + destination);
+				//System.out.println("Origine : " + origine);
+				//System.out.println("Destination : " + destination);
 				
 				if(origine==destination) {
-					System.out.println("Origine et Destination identiques");
-					System.out.println("Cout solution: 0");
+					//System.out.println("Origine et Destination identiques");
+					//System.out.println("Cout solution: 0");
 					res = 0.0;
 					
 				} else {			
@@ -98,8 +98,8 @@ public class DjikstraTest  {
 					
 					if (solution.getPath() == null) {
 						//assertEquals(expected.getPath(), solution.getPath());
-						System.out.println("PAS DE SOLUTION");
-						System.out.println("(infini) ");
+						//System.out.println("PAS DE SOLUTION");
+						//System.out.println("(infini) ");
 						res = -1.0;
 					}
 					// Un plus court chemin trouve 
@@ -115,14 +115,14 @@ public class DjikstraTest  {
 							//costExpected = expected.getPath().getLength();
 						}
 						//assertEquals(costExpected, costSolution, 0.001);
-						System.out.println("Cout solution: " + costSolution);
+						//System.out.println("Cout solution: " + costSolution);
 						res = costSolution;
 					}
 				}
 			}
 		}
-		System.out.println();
-		System.out.println();
+		//System.out.println();
+		//System.out.println();
         reader.close();
 		return res;
 	}
@@ -133,7 +133,7 @@ public class DjikstraTest  {
 	public void NoPath() throws Exception {
 		//We check that it's the same result for Djikstra and Bellman
 		//check les noms et mettre les bonnes coordonnées
-		System.out.println("test1");
+		//System.out.println("test1");
 		assertEquals(testScenario("guadeloupe.mapgr", 0, 16032, 16122, 'B'), testScenario("guadeloupe.mapgr", 0, 16032, 16122, 'D') , 0.001 );
         assertEquals(testScenario("guadeloupe.mapgr", 1, 16032, 16122, 'B'), testScenario("guadeloupe.mapgr", 1, 16032, 16122, 'D') , 0.001);
     }

@@ -3,7 +3,6 @@ package org.insa.graphs.algorithm.shortestpath;
 import org.insa.graphs.algorithm.AbstractInputData;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Point;
-import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
 
 public class LabelStar extends Label {
     
@@ -11,7 +10,6 @@ public class LabelStar extends Label {
 
     public LabelStar(Node noeud, ShortestPathData data){
         super(noeud);
-        //System.out.println("heu\n");
         if (data.getMode() == AbstractInputData.Mode.LENGTH) {
             this.borneInf = (float)Point.distance(noeud.getPoint(), data.getDestination().getPoint());
         } else {
@@ -27,43 +25,7 @@ public class LabelStar extends Label {
 
     @Override
     public void setTotalCost(float cout) {
-        //System.out.println("************************\n");
         this.TotalCost=this.borneInf+cout;
     }
-
-    //Utilise la comparaison de label pour le djisktra
-    //@Override
-    /*public int compareTo(Label autre) {
-        System.out.println("labelstar\n");
-        int res;
-        if (this.getTotalCost() < autre.getTotalCost()) {
-            res = -1;
-        } else if (this.getTotalCost() == autre.getTotalCost()) {
-            System.out.println("yopepito\n");
-            LabelStar other = (LabelStar) autre;
-            if (this.borneInf<other.borneInf){
-                res= 1;
-            } else {
-                res = -1;
-            }
-            if (autre instanceof LabelStar) {
-                System.out.println("yopepito\n");
-                LabelStar other = (LabelStar) autre;
-                if (this.borneInf<other.borneInf){
-                    res= 1;
-                } else {
-                    res = -1;
-                }
-                // Implement compareTo for LabelStar
-            } else {
-                // if autre is not a labelstar (normalement pas le cas)
-                res=0;
-            }
-            
-        } else {
-            res = 1;
-        }      
-        return res;
-    }*/
 
 }

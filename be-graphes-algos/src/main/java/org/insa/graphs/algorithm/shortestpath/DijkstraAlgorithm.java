@@ -1,7 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -102,8 +101,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                             successorLabel.setCost(current.getCost()+(float)data.getCost(arcIter));
                             successorLabel.setTotalCost(successorLabel.getCost());
                             successorLabel.setFather(current.get_sommet());
-                            //System.out.println("cout \n" + successorLabel.getCost());
-                            //System.out.println("cout total \n" + successorLabel.getTotalCost());
 
 						/* Si le label est déjà dans le tas */
 						/* Alors on met à jour sa position dans le tas */
