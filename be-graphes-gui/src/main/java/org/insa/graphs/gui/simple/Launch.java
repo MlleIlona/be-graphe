@@ -52,26 +52,18 @@ public class Launch {
         final GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(map))));
 
-        //final GraphReaderProgressBar progressBar = new GraphReaderProgressBar();
-
-        // TODO: Read the graph.
         final Graph graph = reader.read();
 
-        // Create the drawing:
         final Drawing drawing = createDrawing();
 
-        // TODO: Draw the graph on the drawing.
         drawing.drawGraph(graph);
 
-        // TODO: Create a PathReader.
         final PathReader pathReader = new BinaryPathReader(
             new DataInputStream(new BufferedInputStream(new FileInputStream(Nom_path))));;
 
 
-        // TODO: Read the path.
         final Path path = pathReader.readPath(graph);
 
-        // TODO: Draw the path.
         drawing.drawPath(path);
 
         pathReader.close();
@@ -82,9 +74,7 @@ public class Launch {
 
     public static void main(String[] args) throws Exception {
 
-        // Visit these directory to see the list of available files on Commetud.
-
-
+       
         Afficher("insa.mapgr", "path_fr31insa_rangueil_r2.path");
         Afficher("haute-garonne.mapgr", "path_fr31_insa_bikini_canal.path");
 

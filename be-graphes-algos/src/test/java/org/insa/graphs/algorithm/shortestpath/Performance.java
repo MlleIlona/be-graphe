@@ -24,11 +24,9 @@ public class Performance {
         final String mapName="C:/Users/bourg/OneDrive/Bureau/INSA_3A/S2/BE_Graphes/Maps/"+map;
 		
 		try {
-			// Create a graph reader.
 			GraphReader reader = new BinaryGraphReader(
 					new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
 
-			// Read the graph.
 			Graph graph = reader.read();
 
 			/* Création de l'arcInspector */
@@ -79,8 +77,6 @@ public class Performance {
 	}
     
 
-    //public void main(String[] args) throws Exception {
-
     @Test
     public void Test() throws Exception {
         double tot_temps=0;
@@ -91,7 +87,6 @@ public class Performance {
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("toulouse.mapgr", 0 ,3167, 6159, 'D');
 
-            //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps Djikstra chemin court en temps : " + temps_unitaire + "\n");
@@ -102,7 +97,6 @@ public class Performance {
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("toulouse.mapgr", 0 ,3167, 6159, 'A');
             //Type evaluation : 0 = Temps & 1 = Distance
-            //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps A* chemin court en temps : " + temps_unitaire + "\n");
@@ -113,7 +107,6 @@ public class Performance {
 /*---------------Test sur 100 itération de Djikstra sur un chemin moyen en temps-------------*/
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,78045, 86441, 'D');
-            //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps Djikstra chemin moyen en temps : " + temps_unitaire + "\n");
@@ -123,7 +116,7 @@ public class Performance {
 /*---------------Test sur 100 itération de A* sur un chemin moyen en temps ------------------*/
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,78045, 86441, 'A');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps A* chemin moyen en temps : " + temps_unitaire + "\n");
@@ -131,10 +124,10 @@ public class Performance {
         temps_unitaire=0;
 
 
-/*---------------Test sur 100 itération de Djikstra sur un chemin long en temps---------------*/
+/*---------------Test sur 10 itération de Djikstra sur un chemin long en temps---------------*/
         for (int i=0; i<10; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,56839, 147003, 'D');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/10.0;
         System.out.println("Temps Djikstra chemin long en temps : " + temps_unitaire + "\n");
@@ -142,11 +135,10 @@ public class Performance {
         temps_unitaire=0;
 
 
-/*---------------Test sur 100 itération de A* sur un chemin long en temps---------------------*/
+/*---------------Test sur 10 itération de A* sur un chemin long en temps---------------------*/
         for (int i=0; i<10; i++){
             //We tried with France, and it worked, but it's really long
             tot_temps+=TempsExecution("haute-garonne.mapgr", 0 ,56839, 147003, 'A');
-            //Choisir origine et destination
         }
         temps_unitaire=tot_temps/10.0;
         System.out.println("Temps A* chemin long en temps : " + temps_unitaire + "\n");
@@ -158,7 +150,6 @@ public class Performance {
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("toulouse.mapgr", 1 ,3167, 6159, 'D');
 
-            //Choisir origine et destination
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps Djikstra chemin court en distance : " + temps_unitaire + "\n");
@@ -168,8 +159,7 @@ public class Performance {
 /*----------------Test sur 100 itération de A* sur un chemin court en distance------------*/
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("toulouse.mapgr", 1 , 3167, 6159, 'A');
-            //Type evaluation : 0 = Temps & 1 = Distance
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps A* chemin court en distance : " + temps_unitaire + "\n");
@@ -180,7 +170,7 @@ public class Performance {
 /*---------------Test sur 100 itération de Djikstra sur un chemin moyen en distance-------------*/
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,78045, 86441, 'D');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps Djikstra chemin moyen en distance : " + temps_unitaire + "\n");
@@ -190,7 +180,7 @@ public class Performance {
 /*---------------Test sur 100 itération de A* sur un chemin moyen en distance ------------------*/
         for (int i=0; i<100; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,78045, 86441, 'A');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/100.0;
         System.out.println("Temps A* chemin moyen en distance : " + temps_unitaire + "\n");
@@ -198,10 +188,10 @@ public class Performance {
         temps_unitaire=0;
 
 
-/*---------------Test sur 100 itération de Djikstra sur un chemin long en distance---------------*/
+/*---------------Test sur 10 itération de Djikstra sur un chemin long en distance---------------*/
         for (int i=0; i<10; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,56839, 147003, 'D');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/10.0;
         System.out.println("Temps Djikstra chemin long en distance : " + temps_unitaire + "\n");
@@ -209,10 +199,10 @@ public class Performance {
         temps_unitaire=0;
 
 
-/*---------------Test sur 100 itération de A* sur un chemin long en distance---------------------*/
+/*---------------Test sur 10 itération de A* sur un chemin long en distance---------------------*/
         for (int i=0; i<10; i++){
             tot_temps+=TempsExecution("haute-garonne.mapgr", 1 ,56839, 147003, 'A');
-            //Choisir origine et destination
+
         }
         temps_unitaire=tot_temps/10.0;
         System.out.println("Temps A* chemin long en distance : " + temps_unitaire + "\n");

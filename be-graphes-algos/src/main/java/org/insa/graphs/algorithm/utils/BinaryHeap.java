@@ -151,7 +151,6 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
             E dernierElement = this.array.get(indexLast);
             this.arraySet(index, dernierElement);
             this.array.remove(indexLast); // Supprimer le dernier élément
-            //this.currentSize--; // Mettre à jour la taille
             this.percolateDown(index);
             this.percolateUp(index);
         }

@@ -41,26 +41,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // On instancie un tas de label pour la gestion des successeurs
         BinaryHeap<Label> tasLabel = new BinaryHeap<Label>();
 
-        // Initialize array of predecessors.
+        //Initialisation du tableau des prédecesseurs
         Arc[] predecessorArcs = new Arc[nbNodes];
 
         // Ajout du sommet de départ
         Label debut = newLabel(data.getOrigin(), data);
         tableauLabel[debut.get_sommet().getId()] = debut;
-        debut.setExist();
+        debut.setExist(); //setExist dis que le Node est déjà dans le tableau : pas besoin de le remettre si on retombe dessus
         tasLabel.insert(debut);
         debut.setCost(0);
 
 
-
-
-        // Notify observers about the first event (origin processed).
+        //Previens les observateurs de l'origine
         notifyOriginProcessed(data.getOrigin());
 
 
-
-        // Actual algorithm, we will assume the graph does not contain negative
-        // cycle...
         boolean found = false;
         while(!tasLabel.isEmpty() && !found) {
             Label current = tasLabel.deleteMin();
@@ -91,13 +86,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 }
 
                 if (!successorLabel.get_mark()) {
-					/* Si on obtient un meilleur coût */
-					/* Alors on le met à jour */
+					//Si meilleur cout, mise à jour du cout
 
                     if ((successorLabel.getCost()>(current.getCost()+data.getCost(arcIter)))) {
 
-
-					//if(successorLabel.compareTo(current)>0){
                             successorLabel.setCost(current.getCost()+(float)data.getCost(arcIter));
                             successorLabel.setTotalCost(successorLabel.getCost());
                             successorLabel.setFather(current.get_sommet());
@@ -117,15 +109,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 				}
             }
             
-                // Destination has no predecessor, the solution is infeasible...
+                // Pas possible car la destination n'a pas de predecesseur
             if (predecessorArcs[data.getDestination().getId()] == null) {
                 solution = new ShortestPathSolution(data, Status.INFEASIBLE);
             } else {
 
-                // The destination has been found, notify the observers.
+                // Previens les observateur : destination trouvé
                 notifyDestinationReached(data.getDestination());
 
-                // Create the path from the array of predecessors...
+                // Créer le chemin a partir de l'Array des prédecesseurs
                 ArrayList<Arc> arcs = new ArrayList<>();
                 Arc arc2 = predecessorArcs[data.getDestination().getId()];
 
@@ -134,10 +126,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     arc2 = predecessorArcs[arc2.getOrigin().getId()];
                 }
 
-                // Reverse the path...
+                // Inverse le chemin (pour avoir de origine à destination)
                 Collections.reverse(arcs);
 
-                // Create the final solution.
+                // Solution finale
                 solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
 
             }
