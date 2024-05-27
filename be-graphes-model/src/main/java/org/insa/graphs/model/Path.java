@@ -275,7 +275,6 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
-        // TODO:
         if (this.isEmpty() || this.size()==1) { //OR
             return true;
         } else if (this.getOrigin()==this.arcs.get(0).getOrigin()){

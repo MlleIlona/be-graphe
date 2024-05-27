@@ -66,7 +66,7 @@ public class Performance {
                 temps=0.0;
                 nbSommet=0;
             }
-            System.out.println(nbSommet);
+            //System.out.println(nbSommet);
             reader.close();
             return temps;
             
